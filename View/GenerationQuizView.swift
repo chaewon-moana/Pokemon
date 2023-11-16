@@ -17,6 +17,7 @@ struct GenerationQuizView: View {
     @State var pressCount = 0
     @State var isCorrect = false
     @State var goToNextPage = false
+    @State var currentPokemon: Pokemon? = nil
     
     var body: some View {
         NavigationStack {
@@ -55,7 +56,9 @@ struct GenerationQuizView: View {
                     
                     Button("shuffle") {
                         viewModel.generateRandomID()
-                        viewModel.fetchRandomPokemon()
+                        viewModel.fetchRandomPokemon() { pokemon in
+                            self.currentPokemon = pokemon
+                        }
                     }
                     Spacer()
                     Button("업다운하러가기") {
@@ -67,7 +70,9 @@ struct GenerationQuizView: View {
                 }
                 .onAppear {
                     viewModel.generateRandomID()
-                    viewModel.fetchRandomPokemon()
+                    viewModel.fetchRandomPokemon() { pokemon in
+                        self.currentPokemon = pokemon
+                    }
                     isCorrect = false
                     goToNextPage = false
                 }
@@ -76,7 +81,9 @@ struct GenerationQuizView: View {
                     .font(.caption)
             }
             .navigationDestination(isPresented: $goToNextPage) {
-                UpdownQuizView()
+                if let currentPokemon = currentPokemon {
+                        UpdownQuizView(currentPokemon: currentPokemon, pokemonImage: viewModel.pokemonImage, counts: $pressCount)
+                    }
             }
         }
     
@@ -95,6 +102,10 @@ struct GenerationQuizView: View {
         showingAlert = true
     }
 }
+//
+//#Preview {
+//    GenerationQuizView()
+//}
 
 extension GenerationQuizView {
     enum Generations: Int, CaseIterable {

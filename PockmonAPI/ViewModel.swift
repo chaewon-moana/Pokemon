@@ -8,6 +8,7 @@
 import SwiftUI
 //
 class ViewModel: ObservableObject {
+    @Published var pokemonID: Int = 0
     @Published var pokemonImage: UIImage?
     @Published var pokemonName: String = ""
     @Published var pokemonTypes: [String] = []
@@ -17,24 +18,66 @@ class ViewModel: ObservableObject {
     
     @Published var resultMessage: String = ""
     
-    func fetchRandomPokemon() {
+//    func fetchRandomPokemon() -> Pokemon {
+//        guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(randomID)") else {
+//            print("Invalid URL")
+//            let defaultSprites = Sprites(front_default: nil)
+//            return Pokemon(id: 0, name: "", sprites: defaultSprites, weight: 0, height: 0) // default Pokemon
+//        }
+//        
+//        let defaultSprites = Sprites(front_default: nil)
+//        var pokemon = Pokemon(id: 0, name: "", sprites: defaultSprites, weight: 0, height: 0)
+//        URLSession.shared.dataTask(with: url) { data, response, error in
+//            if let data = data {
+//                do {
+//                    let result = try JSONDecoder().decode(Pokemon.self, from: data)
+//                    if let imageUrlString = result.sprites.front_default, let imageUrl = URL(string: imageUrlString), let imageData = try? Data(contentsOf: imageUrl) {
+//                        DispatchQueue.main.async {
+//                            self.pokemonImage = UIImage(data: imageData)
+//                            self.pokemonID = result.id
+//                            self.pokemonName = result.name
+//                            self.pokemonHeight = result.height
+//                            self.pokemonWeight = result.weight
+//                            pokemon = result
+//                        }
+//                    }
+//                } catch {
+//                    print("Error decoding JSON: \(error)")
+//                }
+//            } else if let error = error {
+//                print("Error fetching data: \(error)")
+//            }
+//        }.resume()
+//
+//        return pokemon
+//    }
+
+    func fetchRandomPokemon(completion: @escaping (Pokemon) -> Void) {
         guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(randomID)") else {
             print("Invalid URL")
+            let defaultSprites = Sprites(front_default: nil)
+            let defaultPokemon = Pokemon(id: 0, name: "", sprites: defaultSprites, weight: 0, height: 0) // default Pokemon
+            completion(defaultPokemon)
             return
         }
-        
+
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 do {
                     let result = try JSONDecoder().decode(Pokemon.self, from: data)
-                    if let imageUrlString = result.sprites.front_default, let imageUrl = URL(string: imageUrlString), let imageData = try? Data(contentsOf: imageUrl) {
+                    if let imageUrlString = result.sprites.front_default,
+                       let imageUrl = URL(string: imageUrlString),
+                       let imageData = try? Data(contentsOf: imageUrl) {
                         DispatchQueue.main.async {
                             self.pokemonImage = UIImage(data: imageData)
+                            self.pokemonID = result.id
                             self.pokemonName = result.name
-                            self.pokemonTypes = result.types.map { $0.type.name }
                             self.pokemonHeight = result.height
                             self.pokemonWeight = result.weight
+                            completion(result) // call the callback function with the result
                         }
+                    } else {
+                        print("Error fetching image.")
                     }
                 } catch {
                     print("Error decoding JSON: \(error)")
@@ -44,6 +87,7 @@ class ViewModel: ObservableObject {
             }
         }.resume()
     }
+
     
     func generateRandomID() {
         randomID = Int.random(in: 1...1017)
