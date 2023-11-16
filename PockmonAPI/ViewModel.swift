@@ -18,7 +18,6 @@ class ViewModel: ObservableObject {
     @Published var resultMessage: String = ""
     
     func fetchRandomPokemon() {
-        
         guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(randomID)") else {
             print("Invalid URL")
             return

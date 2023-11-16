@@ -14,50 +14,81 @@ struct GenerationQuizView: View {
     @StateObject var viewModel = ViewModel()
     @State private var showingAlert = false
     @State private var alertTitle = ""
+    @State var pressCount = 0
+    @State var isCorrect = false
+    @State var goToNextPage = false
     
     var body: some View {
-        VStack {
-            Text("몇 세대 포켓몬일까요오옹??")
-            if let image = viewModel.pokemonImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 300)
-                Text(viewModel.pokemonName)
-            }
-            
-            LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 3), spacing: 20) {
-                ForEach(1...9, id: \.self) { index in
-                    Button(action: {}) {
-                        Text("\(index)세대")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding()
+        NavigationStack {
+            ZStack(alignment: .topLeading) {
+                VStack {
+                    Text("몇 세대 포켓몬일까요오옹??")
+                    if let image = viewModel.pokemonImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 300)
+                        Text(viewModel.pokemonName)
                     }
+                    
+                    LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 3), spacing: 20) {
+                        ForEach(Generations.allCases, id: \.self) { generation in
+                            Button(action: {
+                                pressCount += 1
+                                checkAnswer(for: generation)
+                            }) {
+                                Text("\(generation.rawValue)세대")
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .background(Color.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                                    .padding()
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .alert(isPresented: $showingAlert) {
+                                Alert(title: Text(alertTitle))
+                            }
+                        }
+                    }
+                    .padding()
+                    
+                    
+                    Button("shuffle") {
+                        viewModel.generateRandomID()
+                        viewModel.fetchRandomPokemon()
+                    }
+                    Spacer()
+                    Button("업다운하러가기") {
+                        goToNextPage = true
+                    }
+                    .disabled(!isCorrect)
                     .buttonStyle(.borderedProminent)
-                    .alert(isPresented: $showingAlert) {
-                        Alert(title: Text(alertTitle))
-                    }
+                    
                 }
+                .onAppear {
+                    viewModel.generateRandomID()
+                    viewModel.fetchRandomPokemon()
+                    isCorrect = false
+                    goToNextPage = false
+                }
+                
+                Text("시도횟수 : \(pressCount)")
+                    .font(.caption)
             }
-            .padding()
-            
-            
-            Button("shuffle") {
-                viewModel.fetchRandomPokemon()
+            .navigationDestination(isPresented: $goToNextPage) {
+                UpdownQuizView()
             }
         }
-        .onAppear {
-            viewModel.fetchRandomPokemon()
-        }
+    
+
     }
+        
     
     
     func checkAnswer(for generation: Generations) {
         if generation.range.contains(viewModel.randomID) {
             alertTitle = "정답입니다!"
+            isCorrect = true
         } else {
             alertTitle = "틀렸습니다."
         }
