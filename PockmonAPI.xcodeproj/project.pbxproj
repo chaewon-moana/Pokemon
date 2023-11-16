@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		429E85592B0668720000E086 /* GenerationQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429E85582B0668720000E086 /* GenerationQuizView.swift */; };
 		429E855B2B0668800000E086 /* UpdownQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429E855A2B0668800000E086 /* UpdownQuizView.swift */; };
-		429E855E2B06689E0000E086 /* UpdownQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429E855D2B06689E0000E086 /* UpdownQuizViewModel.swift */; };
 		429E85612B0668BF0000E086 /* GenerationQuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429E85602B0668BE0000E086 /* GenerationQuizViewModel.swift */; };
 		DE7670B02B04F3E300DC2B40 /* PockmonAPIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7670AF2B04F3E300DC2B40 /* PockmonAPIApp.swift */; };
 		DE7670B22B04F3E300DC2B40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7670B12B04F3E300DC2B40 /* ContentView.swift */; };
@@ -22,7 +21,6 @@
 /* Begin PBXFileReference section */
 		429E85582B0668720000E086 /* GenerationQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationQuizView.swift; sourceTree = "<group>"; };
 		429E855A2B0668800000E086 /* UpdownQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdownQuizView.swift; sourceTree = "<group>"; };
-		429E855D2B06689E0000E086 /* UpdownQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdownQuizViewModel.swift; sourceTree = "<group>"; };
 		429E85602B0668BE0000E086 /* GenerationQuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationQuizViewModel.swift; sourceTree = "<group>"; };
 		DE7670AC2B04F3E300DC2B40 /* PockmonAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PockmonAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7670AF2B04F3E300DC2B40 /* PockmonAPIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PockmonAPIApp.swift; sourceTree = "<group>"; };
@@ -57,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				429E85602B0668BE0000E086 /* GenerationQuizViewModel.swift */,
-				429E855D2B06689E0000E086 /* UpdownQuizViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -171,7 +168,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				429E855E2B06689E0000E086 /* UpdownQuizViewModel.swift in Sources */,
 				429E85612B0668BF0000E086 /* GenerationQuizViewModel.swift in Sources */,
 				DE7670B22B04F3E300DC2B40 /* ContentView.swift in Sources */,
 				429E85592B0668720000E086 /* GenerationQuizView.swift in Sources */,
@@ -307,7 +303,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PockmonAPI/Preview Content\"";
-				DEVELOPMENT_TEAM = X32GZ3NKQ8;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -336,7 +332,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PockmonAPI/Preview Content\"";
-				DEVELOPMENT_TEAM = X32GZ3NKQ8;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

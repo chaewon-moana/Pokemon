@@ -7,11 +7,14 @@
 
 import SwiftUI
 
+let defaultSprites = Sprites(front_default: nil)
+let defaultPokemon = Pokemon(id: 0, name: "", sprites: defaultSprites, weight: 0, height: 0)
+
 @main
 struct PockmonAPIApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GenerationQuizView(currentPokemon: defaultPokemon)
         }
     }
 }
