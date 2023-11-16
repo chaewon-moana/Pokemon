@@ -12,32 +12,34 @@ class GenerationQuizViewModel: ObservableObject {
     @Published var pokemonName: String = ""
     @Published var randomID = Int.random(in: 1...1017)
     
-    func fetchRandomPokemon() async throws -> Pokemon {
-        guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(randomID)") else {
-            print("URL Error")
-            throw URLError(.badURL)
-        }
-        
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let decoder = JSONDecoder()
-        let pokemon = try decoder.decode(Pokemon.self, from: data)
-        
-        DispatchQueue.main.async {
-            self.pokemonName = pokemon.name
-        }
-        
-        if let imageURL = URL(string: pokemon.sprites.frontDefault) {
-            do {
-                let (imageData, _) = try await URLSession.shared.data(from: imageURL)
-                DispatchQueue.main.async {
-                    self.pokemonImage = UIImage(data: imageData)
-                }
-            } catch {
-                print("Image Fetch Error: \(error)")
+        func fetchRandomPokemon() {
+            guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(randomID)") else {
+                print("Invalid URL")
+                return
             }
+    
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    do {
+                        let result = try JSONDecoder().decode(Pokemon.self, from: data)
+                        if let imageUrlString = result.sprites.front_default, let imageUrl = URL(string: imageUrlString), let imageData = try? Data(contentsOf: imageUrl) {
+                            DispatchQueue.main.async {
+                                self.pokemonImage = UIImage(data: imageData)
+                                self.pokemonName = result.name
+                            }
+                        }
+                    } catch {
+                        print("Error decoding JSON: \(error)")
+                    }
+                } else if let error = error {
+                    print("Error fetching data: \(error)")
+                }
+            }.resume()
         }
-        
-        return pokemon
+
+    
+    func generateRandomID() {
+        randomID = Int.random(in: 1...1017)
     }
     
 }
