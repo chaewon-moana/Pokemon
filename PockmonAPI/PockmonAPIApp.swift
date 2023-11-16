@@ -11,7 +11,7 @@ import SwiftUI
 struct PockmonAPIApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GenerationQuizView()
         }
     }
 }
