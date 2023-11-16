@@ -8,6 +8,7 @@
 import SwiftUI
 
 class ViewModel: ObservableObject {
+    @Published var pokemonID: Int = 0
     @Published var pokemonImage: UIImage?
     @Published var pokemonName: String = ""
     @Published var pokemonTypes: [String] = []
@@ -32,6 +33,7 @@ class ViewModel: ObservableObject {
                     if let imageUrlString = result.sprites.front_default, let imageUrl = URL(string: imageUrlString), let imageData = try? Data(contentsOf: imageUrl) {
                         DispatchQueue.main.async {
                             self.pokemonImage = UIImage(data: imageData)
+                            self.pokemonID = result.id
                             self.pokemonName = result.name
                             self.pokemonTypes = result.types.map { $0.type.name }
                             self.pokemonHeight = result.height
@@ -48,7 +50,7 @@ class ViewModel: ObservableObject {
     }
     
     func generateRandomID() {
-        randomID = Int.random(in: 1...151)
+        randomID = Int.random(in: 1...1017)
     }
     
     func determineBattleResult(with selectedTypes: [String]) {

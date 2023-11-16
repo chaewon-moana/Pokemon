@@ -13,6 +13,6 @@ struct GenerationQuizViewModel: View {
     }
 }
 
-#Preview {
-    GenerationQuizViewModel()
-}
+//#Preview {
+//    GenerationQuizViewModel()
+//}

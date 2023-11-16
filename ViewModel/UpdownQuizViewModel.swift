@@ -13,6 +13,6 @@ struct UpdownQuizViewModel: View {
     }
 }
 
-#Preview {
-    UpdownQuizViewModel()
-}
+//#Preview {
+//    UpdownQuizViewModel()
+//}
